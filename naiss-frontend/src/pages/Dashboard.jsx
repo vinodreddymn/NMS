@@ -52,31 +52,31 @@ function Dashboard() {
   ];
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+    <div className="space-y-4 sm:space-y-6">
+      <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">Dashboard</h1>
       
       {stats.error && (
-        <div className="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
-          <div className="flex">
+        <div className="bg-red-50 border-l-4 border-red-400 p-3 sm:p-4 rounded">
+          <div className="flex gap-3">
             <div className="flex-shrink-0">
               <FiAlertTriangle className="h-5 w-5 text-red-400" />
             </div>
-            <div className="ml-3">
-              <p className="text-sm text-red-700">{stats.error}</p>
+            <div className="min-w-0">
+              <p className="text-xs sm:text-sm text-red-700 break-words">{stats.error}</p>
             </div>
           </div>
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
         {statCards.map((card, idx) => (
-          <div key={idx} className="bg-white rounded-lg shadow p-6 flex items-center">
-            <div className={`p-3 rounded-full ${card.bg}`}>
-              <card.icon className={`w-6 h-6 ${card.color}`} />
+          <div key={idx} className="bg-white rounded-lg shadow p-4 sm:p-5 md:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 hover:shadow-md transition-shadow">
+            <div className={`p-2 sm:p-3 rounded-full flex-shrink-0 ${card.bg}`}>
+              <card.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${card.color}`} />
             </div>
-            <div className="ml-4">
-              <h2 className="text-sm font-medium text-gray-500">{card.title}</h2>
-              <p className="text-2xl font-semibold text-gray-900">{card.value}</p>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider truncate">{card.title}</h2>
+              <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 mt-0.5 sm:mt-1 truncate">{card.value}</p>
             </div>
           </div>
         ))}
