@@ -46,6 +46,30 @@ class DeviceStatusLogController {
         }
     }
 
+    async getStatusChangesByDeviceId(req, res) {
+        try {
+            const limit = req.query.limit ? parseInt(req.query.limit) : 100;
+            const offset = req.query.offset ? parseInt(req.query.offset) : 0;
+            const result = await deviceStatusLogService.getStatusChangesByDeviceId(req.params.deviceId, limit, offset);
+            const count = await deviceStatusLogService.getStatusChangeCountByDeviceId(req.params.deviceId);
+            res.json({ success: true, data: result, total: count, limit, offset });
+        } catch (error) {
+            res.status(400).json({ success: false, error: error.message });
+        }
+    }
+
+    async getAllStatusChanges(req, res) {
+        try {
+            const limit = req.query.limit ? parseInt(req.query.limit) : 100;
+            const offset = req.query.offset ? parseInt(req.query.offset) : 0;
+            const result = await deviceStatusLogService.getAllStatusChanges(limit, offset);
+            const count = await deviceStatusLogService.getAllStatusChangesCount();
+            res.json({ success: true, data: result, total: count, limit, offset });
+        } catch (error) {
+            res.status(400).json({ success: false, error: error.message });
+        }
+    }
+
     async getLatestForDevice(req, res) {
         try {
             const result = await deviceStatusLogService.getLatestForDevice(req.params.deviceId);

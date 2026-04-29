@@ -72,17 +72,37 @@ export const regulatorAPI = {
   delete: (id) => api.delete(`/voltage-regulators/${id}`)
 };
 
-// Alarm Events API
 export const alarmAPI = {
-  getAll: (limit = 100, offset = 0) => api.get(`/alarm-events?limit=${limit}&offset=${offset}`),
-  getById: (id) => api.get(`/alarm-events/${id}`),
-  getActive: (limit = 100, offset = 0) => api.get(`/alarm-events/active?limit=${limit}&offset=${offset}`),
-  getByDevice: (deviceId, limit = 100, offset = 0) => api.get(`/alarm-events/by-device/${deviceId}?limit=${limit}&offset=${offset}`),
-  getBySeverity: (severity, limit = 100, offset = 0) => api.get(`/alarm-events/by-severity/${severity}?limit=${limit}&offset=${offset}`),
-  getByEventType: (eventType, limit = 100, offset = 0) => api.get(`/alarm-events/by-type/${eventType}?limit=${limit}&offset=${offset}`),
+  // Core
+  getActive: (limit = 100, offset = 0) =>
+    api.get(`/alarm-events/active?limit=${limit}&offset=${offset}`),
+
+  getHistory: (limit = 100, offset = 0) =>
+    api.get(`/alarm-events/history?limit=${limit}&offset=${offset}`),
+
+  getById: (id) =>
+    api.get(`/alarm-events/${id}`),
+
+  // Filters
+  getByDevice: (deviceId, limit = 100, offset = 0) =>
+    api.get(`/alarm-events/device/${deviceId}?limit=${limit}&offset=${offset}`),
+
+  getBySeverity: (severity, limit = 100, offset = 0) =>
+    api.get(`/alarm-events/severity/${severity}?limit=${limit}&offset=${offset}`),
+
+  getByEventType: (eventType, limit = 100, offset = 0) =>
+    api.get(`/alarm-events/type/${eventType}?limit=${limit}&offset=${offset}`),
+
+  // Actions
+  acknowledge: (id, acknowledgedBy) =>
+    api.post(`/alarm-events/${id}/acknowledge`, { acknowledged_by: acknowledgedBy }),
+
+  clear: (id) =>
+    api.post(`/alarm-events/${id}/clear`),
+
+  // CRUD
   create: (data) => api.post('/alarm-events', data),
   update: (id, data) => api.put(`/alarm-events/${id}`, data),
-  acknowledge: (id, acknowledgedBy) => api.post(`/alarm-events/${id}/acknowledge`, { acknowledged_by: acknowledgedBy }),
   delete: (id) => api.delete(`/alarm-events/${id}`)
 };
 
@@ -91,6 +111,8 @@ export const deviceStatusLogAPI = {
   getAll: (limit = 100, offset = 0) => api.get(`/device-status-logs?limit=${limit}&offset=${offset}`),
   getById: (id) => api.get(`/device-status-logs/${id}`),
   getByDevice: (deviceId, limit = 100, offset = 0) => api.get(`/device-status-logs/by-device/${deviceId}?limit=${limit}&offset=${offset}`),
+  getStatusChanges: (limit = 100, offset = 0) => api.get(`/device-status-logs/status-changes/all?limit=${limit}&offset=${offset}`),
+  getStatusChangesByDevice: (deviceId, limit = 100, offset = 0) => api.get(`/device-status-logs/status-changes/${deviceId}?limit=${limit}&offset=${offset}`),
   getLatest: (deviceId) => api.get(`/device-status-logs/latest/${deviceId}`),
   getByDateRange: (startDate, endDate, limit = 100, offset = 0) =>
     api.get(`/device-status-logs/date-range?startDate=${startDate}&endDate=${endDate}&limit=${limit}&offset=${offset}`),

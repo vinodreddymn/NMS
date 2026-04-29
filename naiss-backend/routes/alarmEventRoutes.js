@@ -1,17 +1,76 @@
 const express = require('express');
 const router = express.Router();
-const alarmEventController = require('../controllers/alarmEventController');
+const controller = require('../controllers/alarmEventController');
 
-// CRUD endpoints
-router.post('/alarm-events', alarmEventController.create);
-router.get('/alarm-events', alarmEventController.getAll);
-router.get('/alarm-events/active', alarmEventController.getActive);
-router.get('/alarm-events/:id', alarmEventController.getById);
-router.get('/alarm-events/by-device/:deviceId', alarmEventController.getByDeviceId);
-router.get('/alarm-events/by-severity/:severity', alarmEventController.getBySeverity);
-router.get('/alarm-events/by-type/:eventType', alarmEventController.getByEventType);
-router.put('/alarm-events/:id', alarmEventController.update);
-router.post('/alarm-events/:id/acknowledge', alarmEventController.acknowledge);
-router.delete('/alarm-events/:id', alarmEventController.delete);
+/* ============================================================
+   BASE: /alarm-events
+   ============================================================ */
+
+/**
+ * CREATE alarm (manual or system-triggered)
+ */
+router.post('/', controller.create);
+
+/**
+ * GET active alarms (DEFAULT VIEW)
+ */
+router.get('/active', controller.getActive);
+
+/**
+ * GET alarm history (all alarms)
+ */
+router.get('/history', controller.getAll);
+
+/* ============================================================
+   FILTER ROUTES
+   ============================================================ */
+
+/**
+ * GET alarms by device
+ */
+router.get('/device/:deviceId', controller.getByDeviceId);
+
+/**
+ * GET alarms by severity (CRITICAL, MAJOR, MINOR)
+ */
+router.get('/severity/:severity', controller.getBySeverity);
+
+/**
+ * GET alarms by type (DEVICE_DOWN, POWER_FAILURE, etc.)
+ */
+router.get('/type/:eventType', controller.getByEventType);
+
+/* ============================================================
+   ACTION ROUTES (IMPORTANT)
+   ============================================================ */
+
+/**
+ * ACKNOWLEDGE alarm
+ */
+router.post('/:id/acknowledge', controller.acknowledge);
+
+/**
+ * CLEAR alarm (manual override)
+ */
+router.post('/:id/clear', controller.clear);
+
+/* ============================================================
+   GENERIC ROUTES (KEEP LAST)
+   ============================================================ */
+
+/**
+ * GET alarm by ID
+ */
+router.get('/:id', controller.getById);
+
+/**
+ * UPDATE alarm
+ */
+router.put('/:id', controller.update);
+
+/**
+ * DELETE alarm
+ */
+router.delete('/:id', controller.delete);
 
 module.exports = router;

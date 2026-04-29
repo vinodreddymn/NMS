@@ -25,7 +25,7 @@ app.use('/api', poleRoutes);
 app.use('/api', switchRoutes);
 app.use('/api', substationRoutes);
 app.use('/api', voltageRegulatorRoutes);
-app.use('/api', alarmEventRoutes);
+app.use('/api/alarm-events', alarmEventRoutes);
 app.use('/api', deviceStatusLogRoutes);
 app.use('/api', powerStatusLogRoutes);
 
